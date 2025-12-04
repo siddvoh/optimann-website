@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiMann | Empower Your Mind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for standard icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated to specific hex codes provided
+                        primary: '#023046', // Dark Navy (Opti)
+                        secondary: '#209fbb', // Cyan/Teal (Mann)
+                        accent: '#e0fbfd', // Very Light Cyan for backgrounds (derived from secondary)
+                        text: '#333333',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                        '5xl': '3rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        html { scroll-behavior: smooth; }
+        
+        /* Animation Classes */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Abstract Shape Animation */
+        .float-shape { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .privacy-modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body class="bg-light text-text flex flex-col min-h-screen overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center">
+                <a href="#home" class="flex-shrink-0 flex items-center cursor-pointer group">
+                    <!-- Updated Logo Pattern: Specific Hex Colors applied via Tailwind config -->
+                    <div class="text-3xl font-bold tracking-tighter flex items-center gap-2">
+                        <span class="bg-accent p-2 rounded-2xl text-secondary group-hover:rotate-12 transition-transform duration-300">
+                            <i class="fas fa-brain"></i>
+                        </span>
+                        <span>
+                            <span class="text-primary">Opti</span><span class="text-secondary">Mann</span>
+                        </span>
+                    </div>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-1 items-center bg-gray-50 p-1.5 rounded-full border border-gray-100">
+                    <a href="#home" class="px-6 py-2 rounded-full text-gray-600 hover:text-primary hover:bg-white font-medium transition duration-300 shadow-sm hover:shadow">Home</a>
+                    <a href="#about" class="px-6 py-2 rounded-full text-gray-600 hover:text-primary hover:bg-white font-medium transition duration-300 hover:shadow">About</a>
+                    <a href="#services" class="px-6 py-2 rounded-full text-gray-600 hover:text-primary hover:bg-white font-medium transition duration-300 hover:shadow">Services</a>
+                    <a href="#team" class="px-6 py-2 rounded-full text-gray-600 hover:text-primary hover:bg-white font-medium transition duration-300 hover:shadow">Team</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-primary text-white px-8 py-3 rounded-full hover:bg-sky-900 transition transform hover:scale-105 shadow-lg shadow-blue-200 font-semibold inline-block">Contact Us</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-600 hover:text-primary focus:outline-none p-2 rounded-xl hover:bg-blue-50">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t absolute w-full z-40 shadow-xl rounded-b-3xl">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a href="#home" onclick="toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-primary">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-primary">About</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-primary">Services</a>
+                <a href="#team" onclick="toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-primary">Team</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl text-base font-bold text-white bg-primary mt-4 text-center shadow-lg">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN SCROLLING CONTENT -->
+    <main class="flex-grow">
+
+        <!-- ================= HERO SECTION ================= -->
+        <section id="home" class="relative bg-white overflow-hidden pb-12 pt-10">
+            <!-- Background Blob -->
+            <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-gradient-to-bl from-blue-50 to-transparent rounded-full opacity-60 blur-3xl -z-10"></div>
+            <div class="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-blue-50 to-transparent rounded-full opacity-60 blur-3xl -z-10"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Text Content -->
+                    <div class="z-10 order-2 lg:order-1 text-center lg:text-left fade-in-section is-visible">
+                        <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl mb-6 leading-tight">
+                            Empower <br/>
+                            <span class="text-primary relative inline-block">
+                                Your Mind,
+                                <svg class="absolute w-full h-3 -bottom-1 left-0 text-secondary opacity-40" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C25.8077 4.00001 73.0858 1.00004 100.277 1.00004C132.895 1.00004 168.969 3.00001 198.001 4.99999" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            </span>
+                            <span class="block text-secondary mt-2">Elevate Your Life</span>
+                        </h1>
+                        <p class="mt-4 text-xl text-gray-500 max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed">
+                            At OptiMann, we believe that nurturing your mind is just as essential as feeding your body, forming the cornerstone of a truly satisfying and vibrant life.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <a href="#contact" class="px-10 py-4 border border-transparent text-lg font-bold rounded-full text-white bg-primary hover:bg-sky-900 transition shadow-xl shadow-blue-200 transform hover:-translate-y-1 text-center">
+                                Get Started
+                            </a>
+                            <a href="#services" class="px-10 py-4 border border-transparent text-lg font-bold rounded-full text-primary bg-white border-blue-100 hover:bg-accent transition shadow-md hover:shadow-lg transform hover:-translate-y-1 text-center">
+                                View Services
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Abstract Shape Graphic -->
+                    <div class="order-1 lg:order-2 flex justify-center items-center relative h-[400px] lg:h-[600px] fade-in-section is-visible">
+                        <div class="relative w-[350px] h-[450px] float-shape">
+                            <div class="absolute top-0 left-0 w-44 h-44 bg-blue-200 rounded-full opacity-80 mix-blend-multiply filter blur-sm"></div>
+                            <div class="absolute top-10 right-0 w-40 h-40 bg-secondary rounded-[40px] rounded-tr-[80px] opacity-80 mix-blend-multiply"></div>
+                            <div class="absolute bottom-20 left-4 w-40 h-40 bg-secondary rounded-[40px] rounded-bl-[80px] opacity-80 mix-blend-multiply"></div>
+                            <div class="absolute bottom-0 right-4 w-48 h-48 bg-primary rounded-full rounded-br-[100px] opacity-80 mix-blend-multiply shadow-2xl shadow-blue-200"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-xl z-20">
+                                <i class="fas fa-seedling text-4xl text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Wave Divider Bottom -->
+            <div class="absolute bottom-0 w-full overflow-hidden leading-none">
+                <svg class="relative block w-[calc(100%+1.3px)] h-[80px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-gray-50"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT & MISSION SECTION ================= -->
+        <section id="about" class="py-24 bg-gray-50 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:text-center mb-16 fade-in-section">
+                    <h2 class="text-base text-primary font-bold tracking-widest uppercase bg-accent inline-block px-4 py-1 rounded-full mb-4">About OptiMann</h2>
+                    <p class="text-4xl leading-10 font-extrabold text-gray-900 sm:text-5xl mb-6">
+                        Pioneering Spirit, Scientific Foundation
+                    </p>
+                    <p class="mt-4 max-w-4xl text-xl text-gray-600 lg:mx-auto leading-relaxed">
+                        We are a team of professionals dedicated to transforming the landscape of mental health. Our mission is to revolutionize mental health care by equipping individuals with the latest advancements and tools to cultivate their optimal well-being.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch fade-in-section">
+                    <!-- Card 1 -->
+                    <div class="bg-white p-10 rounded-[40px] shadow-sm border border-gray-100 hover:shadow-xl transition duration-500 relative overflow-hidden group h-full">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-accent rounded-bl-[100px] -mr-8 -mt-8 transition-all group-hover:bg-blue-100"></div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 relative z-10">Holistic Mission</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed relative z-10 mb-6">
+                            At OptiMann, we recognize that mental health extends far beyond symptom management—it's about fostering a balanced connection between mind, body, and spirit. We collaborate to craft tailored, personalized care plans for every individual we serve.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white p-10 rounded-[40px] shadow-sm border border-gray-100 hover:shadow-xl transition duration-500 relative overflow-hidden group h-full">
+                         <div class="absolute bottom-0 left-0 w-32 h-32 bg-green-50 rounded-tr-[100px] -ml-8 -mb-8 transition-all group-hover:bg-green-100"></div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 relative z-10">Our Vision</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed relative z-10">
+                            Inspiring a global transformation, OptiMann envisions a future where individuals effortlessly prioritize their emotional well-being through innovative technology. A world where everyone possesses the means to comprehend, nurture, and elevate their emotional wellness.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SERVICES SECTION ================= -->
+        <section id="services" class="py-24 bg-white relative">
+             <!-- Wave Divider Top -->
+            <div class="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180">
+                 <svg class="relative block w-[calc(100%+1.3px)] h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-gray-50"></path>
+                </svg>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+                <div class="text-center mb-20 fade-in-section">
+                    <h2 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">Our Services</h2>
+                    <p class="mt-4 text-xl text-gray-500">Comprehensive suite of services designed to enrich your mind.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 fade-in-section">
+                    <!-- Service 1 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-white rounded-[40px] p-8 hover:shadow-2xl transition duration-300 border border-transparent hover:border-blue-100 group">
+                        <div class="w-16 h-16 bg-primary rounded-2xl rotate-3 group-hover:rotate-12 transition duration-300 flex items-center justify-center text-white text-2xl mb-8 shadow-lg shadow-blue-200">
+                            <i class="fas fa-laptop-medical"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Wellness Screening</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">
+                            An online platform that offers users the ability to assess their Emotional Wellness Index with personalized insights.
+                        </p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-white rounded-[40px] p-8 hover:shadow-2xl transition duration-300 border border-transparent hover:border-blue-100 group">
+                        <div class="w-16 h-16 bg-secondary rounded-2xl rotate-3 group-hover:rotate-12 transition duration-300 flex items-center justify-center text-white text-2xl mb-8 shadow-lg shadow-blue-200">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Virtual Teletherapy</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">
+                            Sessions by licensed professionals. Individual, group, and specialized modalities like CBT and DBT.
+                        </p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-white rounded-[40px] p-8 hover:shadow-2xl transition duration-300 border border-transparent hover:border-blue-100 group">
+                        <div class="w-16 h-16 bg-primary rounded-2xl -rotate-3 group-hover:-rotate-12 transition duration-300 flex items-center justify-center text-white text-2xl mb-8 shadow-lg shadow-blue-200">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Wellness Workshops</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">
+                            Webinars on stress management, resilience-building, and coping strategies.
+                        </p>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-white rounded-[40px] p-8 hover:shadow-2xl transition duration-300 border border-transparent hover:border-blue-100 group">
+                        <div class="w-16 h-16 bg-green-500 rounded-full group-hover:scale-110 transition duration-300 flex items-center justify-center text-white text-2xl mb-8 shadow-lg shadow-blue-200">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Mindfulness Programs</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">
+                            Meditation programs tailored to beginners and experienced practitioners through experts.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ================= APPROACH SECTION ================= -->
+        <section class="py-24 bg-primary text-white relative overflow-hidden rounded-t-[60px] md:rounded-t-[100px] -mb-1">
+             <!-- Decorative Circles -->
+             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-white opacity-10 rounded-full blur-3xl"></div>
+             <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-secondary opacity-20 rounded-full blur-3xl"></div>
+
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 fade-in-section">
+                <h2 class="text-4xl font-extrabold mb-8">Our Approach</h2>
+                <p class="text-2xl font-light leading-relaxed opacity-95">
+                    Founded by <span class="font-bold text-yellow-300">Dr. Sandeep Vohra & Kapil Kumria</span>, OptiMann pioneers mental health care with a holistic approach, integrating the latest advancements in psychiatry, therapy, and wellness coaching. Our mission is to revolutionize mental health by providing personalized care plans.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= TEAM SECTION ================= -->
+        <section id="team" class="bg-blue-50 pb-24">
+            <div class="py-20 rounded-b-[60px] mb-10 bg-blue-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center fade-in-section">
+                        <h2 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">Our Team</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-section">
+                <!-- Text Paragraph Style -->
+                <div class="bg-white p-10 md:p-14 rounded-[40px] shadow-lg border border-gray-100 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-secondary"></div>
+                    
+                    <p class="text-xl md:text-2xl text-gray-600 leading-loose font-light">
+                        We are a team of professionals and are dedicated to transforming the landscape of mental health with a pioneering spirit and a scientific foundation. Our team of professionals is driven by a singular mission: to revolutionize mental health care by equipping individuals with the latest advancements and tools to cultivate their optimal well-being.
+                    </p>
+                    
+                    <div class="w-24 h-1 bg-accent mx-auto my-8 rounded-full"></div>
+                    
+                    <p class="text-lg md:text-xl text-gray-500 leading-relaxed">
+                        With a multidisciplinary approach, our team, comprising of top psychiatrists, therapists and wellness coaches collaborates to craft tailored, personalized care plans for every individual we serve.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <section id="contact" class="bg-white py-20 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
+            <div class="relative max-w-xl mx-auto bg-blue-50 p-8 sm:p-12 rounded-[50px] shadow-lg fade-in-section">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Get in Touch</h2>
+                    <p class="mt-4 text-lg leading-6 text-gray-500">
+                        We'd love to hear from you. Start your journey to wellness today.
+                    </p>
+                </div>
+                <div class="mt-12">
+                    <!-- Form now uses mailto action -->
+                    <form action="mailto:collaborations@optimann.ai" method="POST" enctype="text/plain" class="grid grid-cols-1 gap-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 ml-4 mb-1">Name *</label>
+                            <input type="text" name="name" id="name" class="py-4 px-6 block w-full shadow-sm focus:ring-primary focus:border-primary border border-gray-200 rounded-full bg-white">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 ml-4 mb-1">Email *</label>
+                            <input type="email" name="email" id="email" class="py-4 px-6 block w-full shadow-sm focus:ring-primary focus:border-primary border border-gray-200 rounded-full bg-white">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 ml-4 mb-1">Phone</label>
+                            <input type="text" name="phone" id="phone" class="py-4 px-6 block w-full shadow-sm focus:ring-primary focus:border-primary border border-gray-200 rounded-full bg-white">
+                        </div>
+                        <div>
+                            <label for="company" class="block text-sm font-medium text-gray-700 ml-4 mb-1">Company / Organization Name</label>
+                            <input type="text" name="company" id="company" class="py-4 px-6 block w-full shadow-sm focus:ring-primary focus:border-primary border border-gray-200 rounded-full bg-white">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 ml-4 mb-1">How can we help?</label>
+                            <textarea name="message" id="message" rows="3" class="py-4 px-6 block w-full shadow-sm focus:ring-primary focus:border-primary border border-gray-200 rounded-3xl bg-white"></textarea>
+                        </div>
+                        <div class="pt-4">
+                            <!-- Changed Button Text -->
+                            <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-primary hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transform transition hover:-translate-y-1">
+                                Send Email
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white relative mt-12">
+         <!-- Curved Top -->
+         <div class="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180 -mt-10 z-0">
+            <svg class="relative block w-[calc(100%+1.3px)] h-[50px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+               <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="fill-gray-900"></path>
+               <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="fill-gray-900"></path>
+               <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="fill-gray-900"></path>
+           </svg>
+       </div>
+
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-1">
+                    <span class="text-3xl font-bold tracking-tighter flex items-center gap-2 mb-4">
+                        <span class="text-secondary"><i class="fas fa-brain"></i></span>
+                        <span class="flex items-center">
+                            <span class="text-white">Opti</span><span class="text-secondary">Mann</span>
+                        </span>
+                    </span>
+                    <p class="text-gray-400 text-sm">(pronounced Opti-Muhn)</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Contact</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li class="text-base text-gray-300">+91 124-4603760</li>
+                        <li class="text-base text-gray-300">collaborations@optimann.ai</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Address</h3>
+                    <p class="mt-4 text-base text-gray-300">
+                        S.N.K Tower, 635 Udyog Vihar,<br>
+                        Phase V, Gurugram,<br>
+                        Haryana - 122016, India
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Social</h3>
+                    <ul class="mt-4 space-y-4 flex space-x-6">
+                        <li>
+                            <a href="https://www.instagram.com/optimann_ai/" target="_blank" class="text-gray-400 hover:text-white transform hover:scale-110 transition flex items-center">
+                                <span class="sr-only">Instagram</span>
+                                <i class="fab fa-instagram text-2xl"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/OptimannAI" target="_blank" class="text-gray-400 hover:text-white transform hover:scale-110 transition flex items-center">
+                                <span class="sr-only">X (Twitter)</span>
+                                <!-- Using direct SVG to guarantee rendering -->
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512" fill="currentColor"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-base text-gray-400">&copy; 2025 by Team OptiMann. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <button onclick="togglePrivacy()" class="text-gray-400 hover:text-white text-sm">Privacy Policy</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="privacy-modal">
+        <div class="relative bg-white m-auto mt-20 max-w-4xl p-8 rounded-[30px] shadow-2xl overflow-y-auto max-h-[80vh]">
+            <span onclick="togglePrivacy()" class="absolute top-4 right-6 text-3xl font-bold cursor-pointer text-gray-400 hover:text-red-500">&times;</span>
+            <div class="px-4">
+                <h3 class="text-3xl font-bold text-gray-900 mb-6">Privacy Policy</h3>
+                <p class="text-sm text-gray-500 mb-6">Effective Date: 2025</p>
+                <div class="space-y-6 text-gray-600">
+                    <p>
+                        OptiMann is committed to the principle of fair and ethical business practices and ensuring the privacy of records and related information for its clients (e.g., employees and associated staff) who utilize the full spectrum of psychiatric/medical and allied services provided by OptiMann.
+                    </p>
+                    
+                    <div class="bg-blue-50 p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Confidentiality Responsibility</h4>
+                        <p>
+                            It is OptiMann's legal and ethical responsibility to protect the privacy, confidentiality of records, proprietary information, and other confidential information relating to its clients.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Data Access & Security</h4>
+                        <p class="mb-4">
+                            Under no circumstances will anyone, including Corporate Heads of the corporation, HR Departments, Authorised Signatories, or business partners (with whom OptiMann might tie up), have access to client's data stored with OptiMann, unless mandated by a court of law.
+                        </p>
+                        <p>
+                            We do not disclose client data to anyone. This includes (but is not limited to) a client's physical and mental health records, diagnostic and therapeutic reports, psychological analysis, and inputs shared with the OptiMann team.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-8 text-right">
+                    <button onclick="togglePrivacy()" class="px-6 py-2 bg-primary text-white rounded-full hover:bg-sky-900">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Privacy Modal
+        function togglePrivacy() {
+            const modal = document.getElementById('privacy-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('privacy-modal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Scroll Animation Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
